@@ -22,6 +22,13 @@
           inherit pkgs;
           services = [ ];
         };
+
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [
+            nodejs
+            nodePackages.pnpm
+          ];
+        };
       }
     )
     // {
