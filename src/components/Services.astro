@@ -30,8 +30,6 @@ const categories = Object.keys(groupedServices);
                     {groupedServices[category].map((service) => (
                         <a
                             href={service.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
                             class="group flex items-center gap-4 p-4 rounded-xl frosted-glass hover:bg-white/20 transition-all"
                         >
                             {service.iconUrl ? (
