@@ -1,12 +1,14 @@
 ---
 import Search from "./icons/search.astro";
+
+const searchUrl = import.meta.env.SEARCH_URL;
 ---
 
-<astro-search-bar class="w-full max-w-2xl">
+<astro-search-bar class="w-full max-w-2xl" data-search-url={searchUrl}>
     <form class="relative">
         <input
             type="text"
-            placeholder="Search with SearxNG..."
+            placeholder="Search..."
             autofocus
             class="w-full px-6 py-3 rounded-full focus:outline-none frosted-glass"
         />
@@ -25,12 +27,17 @@ import Search from "./icons/search.astro";
         connectedCallback() {
             const searchForm = this.querySelector("form") as HTMLFormElement;
             const searchInput = this.querySelector("input") as HTMLInputElement;
+            const searchUrl = this.dataset.searchUrl;
 
             searchForm.addEventListener("submit", (e) => {
                 e.preventDefault();
                 const query = searchInput.value.trim();
                 if (query) {
-                    window.location.href = `https://searx.7sref/search?q=${encodeURIComponent(query)}`;
+                    const url = new URL(
+                        searchUrl ?? "https://google.com/search",
+                    );
+                    url.searchParams.set("q", query);
+                    window.location.href = url.toString();
                 }
             });
         }

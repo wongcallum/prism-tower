@@ -36,6 +36,7 @@
         {
           pkgs,
           services ? [ ],
+          searchUrl ? "https://searx.7sref/search",
         }:
         pkgs.stdenv.mkDerivation (finalAttrs: {
           pname = "prism-tower";
@@ -60,6 +61,7 @@
 
           buildPhase = ''
             runHook preBuild
+            export SEARCH_URL=${pkgs.lib.escapeShellArg searchUrl}
             pnpm build
             runHook postBuild
           '';

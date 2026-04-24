@@ -1,10 +1,9 @@
 ---
-const imageModules = import.meta.glob("/public/characters/*.png", {
-    eager: true,
-});
-const images = Object.keys(imageModules).map((path) =>
-    path.replace("/public", ""),
-);
+const images = Object.keys(
+    import.meta.glob("/public/characters/*.png", {
+        eager: true,
+    }),
+).map((path) => path.replace("/public", ""));
 ---
 
 <div class="fixed bottom-0 right-0 z-10">
@@ -15,7 +14,7 @@ const images = Object.keys(imageModules).map((path) =>
     />
 </div>
 
-<script define:vars={{ images }}>
+<script is:inline define:vars={{ images }}>
     const randomImage = images[Math.floor(Math.random() * images.length)];
     document.getElementById("character-img").src = randomImage;
 </script>
