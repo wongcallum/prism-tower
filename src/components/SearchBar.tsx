@@ -23,6 +23,7 @@ export default function SearchBar({ searchUrl, links }: Props) {
             keys: ["name", "url"],
             threshold: 0.4,
             ignoreLocation: true,
+            minMatchCharLength: 2
         });
     }, [links]);
 
@@ -85,53 +86,55 @@ export default function SearchBar({ searchUrl, links }: Props) {
 
     return (
         <div class="w-full max-w-2xl">
-            <form class="relative" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="query"
-                    placeholder="Search..."
-                    autofocus
-                    autoComplete="off"
-                    value={query}
-                    onInput={handleInput}
-                    onKeyDown={handleKeyDown}
-                    class="w-full px-6 py-3 rounded-3xl focus:outline-none frosted-glass"
-                />
-                <button
-                    type="submit"
-                    aria-label="Search"
-                    class="absolute top-1/2 transform -translate-y-1/2 right-4 focus:outline-none hover:cursor-pointer"
-                >
-                    <FluentSearch24Regular />
-                </button>
-            </form>
+            <div class="relative">
+                <form class="relative" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        name="query"
+                        placeholder="Search..."
+                        autofocus
+                        autoComplete="off"
+                        value={query}
+                        onInput={handleInput}
+                        onKeyDown={handleKeyDown}
+                        class="w-full px-4 py-3 rounded-2xl focus:outline-none frosted-glass"
+                    />
+                    <button
+                        type="submit"
+                        aria-label="Search"
+                        class="absolute top-1/2 transform -translate-y-1/2 right-4 focus:outline-none hover:cursor-pointer"
+                    >
+                        <FluentSearch24Regular />
+                    </button>
+                </form>
 
-            {options.length > 0 && (
-                <ul
-                    id="search-options"
-                    class="mt-3 overflow-hidden rounded-3xl frosted-glass"
-                >
-                    {options.map((option, index) => (
-                        <li key={`${option.name}-${option.url}`}>
-                            <button
-                                type="button"
-                                class={`flex w-full items-center justify-between gap-6 px-4 py-2 text-left ${index === selectedIndex ? "bg-white/20" : "hover:bg-white/10"}`}
-                                onMouseDown={(event) => event.preventDefault()}
-                                onClick={() =>
-                                    (window.location.href = option.url)
-                                }
-                            >
-                                <span class="truncate font-medium">
-                                    {option.name}
-                                </span>
-                                <span class="truncate text-right text-sm text-white/60">
-                                    {option.url}
-                                </span>
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            )}
+                {options.length > 0 && query && (
+                    <ul
+                        id="search-options"
+                        class="absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl frosted-glass"
+                    >
+                        {options.map((option, index) => (
+                            <li key={`${option.name}-${option.url}`}>
+                                <button
+                                    type="button"
+                                    class={`flex w-full items-center justify-between gap-6 px-4 py-2 text-left ${index === selectedIndex ? "bg-white/20" : "hover:bg-white/10"}`}
+                                    onMouseDown={(event) => event.preventDefault()}
+                                    onClick={() =>
+                                        (window.location.href = option.url)
+                                    }
+                                >
+                                    <span class="truncate font-medium">
+                                        {option.name}
+                                    </span>
+                                    <span class="truncate text-right text-sm text-white/60">
+                                        {option.url}
+                                    </span>
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 }
