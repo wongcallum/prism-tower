@@ -6,7 +6,7 @@ interface Props {
 
 export default function Character({ images }: Props) {
     const randomImage = useMemo(() => {
-        if (images.length == 0) return null;
+        if (images.length === 0) return null;
 
         const randomIndex = Math.floor(Math.random() * images.length);
         return images[randomIndex];

@@ -1,18 +1,19 @@
 // @ts-check
-import { defineConfig, passthroughImageService } from 'astro/config';
 
-import tailwindcss from '@tailwindcss/vite';
-import preact from '@astrojs/preact';
+import preact from "@astrojs/preact";
+
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, passthroughImageService } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()]
-  },
+    vite: {
+        plugins: [tailwindcss()],
+    },
 
-  image: {
-    service: passthroughImageService()
-  },
+    image: {
+        service: passthroughImageService(),
+    },
 
-  integrations: [preact()]
+    integrations: [preact()],
 });

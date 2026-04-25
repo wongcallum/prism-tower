@@ -14,7 +14,7 @@ export default function MusicToggle() {
     useEffect(() => {
         localStorage.setItem("muted", muted);
         if (audioRef.current) audioRef.current.muted = muted;
-    }, [muted])
+    }, [muted]);
 
     return (
         <div class="fixed bottom-12 left-1/2 transform -translate-x-1/2 z-10">
@@ -22,9 +22,12 @@ export default function MusicToggle() {
                 type="button"
                 class="frosted-glass rounded-full p-3 hover:cursor-pointer"
                 onClick={() => setMuted(!muted)}
-                aria-label={muted ? "Unmute background music" : "Mute background music"}
             >
-                {muted ? <FluentSpeakerMute24Regular /> : <FluentSpeaker224Regular />}
+                {muted ? (
+                    <FluentSpeakerMute24Regular />
+                ) : (
+                    <FluentSpeaker224Regular />
+                )}
             </button>
             <audio ref={audioRef} loop muted autoplay volume={0.1}>
                 <source src="/bgm.ogg" type="audio/ogg" />
