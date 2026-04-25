@@ -21,6 +21,8 @@
         packages.default = self.lib.mkPrismTower {
           inherit pkgs;
           services = [ ];
+          links = [ ];
+          searchUrl = "";
         };
 
         devShells.default = pkgs.mkShell {
@@ -35,8 +37,9 @@
       lib.mkPrismTower =
         {
           pkgs,
-          services ? [ ],
-          searchUrl ? "https://searx.7sref/search",
+          services,
+          links,
+          searchUrl,
         }:
         pkgs.stdenv.mkDerivation (finalAttrs: {
           pname = "prism-tower";
@@ -52,11 +55,12 @@
           pnpmDeps = pkgs.fetchPnpmDeps {
             inherit (finalAttrs) pname version src;
             fetcherVersion = 3;
-            hash = "sha256-AMETI+PaFBrzTbc6ALkXSvkDOqEDuDoYK2faUIpRLBo=";
+            hash = "sha256-BKGzbkoG5Ua7xzdwsO05nSXqQovWjWcYqV8iE3p0zeQ=";
           };
 
           preBuild = ''
             echo '${builtins.toJSON services}' > public/services.json
+            echo '${builtins.toJSON links}' > public/links.json
           '';
 
           buildPhase = ''
@@ -99,6 +103,31 @@
                   };
                 }
               );
+            };
+
+            links = lib.mkOption {
+              description = "Extra links that will appear in search autocomplete";
+              default = [ ];
+              type = lib.types.listOf (
+                lib.types.submodule {
+                  options = {
+                    name = lib.mkOption {
+                      type = lib.types.str;
+                      example = "ArchWiki";
+                    };
+                    url = lib.mkOption {
+                      type = lib.types.str;
+                      example = "https://wiki.archlinux.org";
+                    };
+                  };
+                }
+              );
+            };
+
+            searchUrl = lib.mkOption {
+              description = "URL for the search bar";
+              default = "https://google.com/search";
+              type = lib.types.str;
             };
           };
         };
