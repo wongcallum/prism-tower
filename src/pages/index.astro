@@ -1,5 +1,5 @@
 ---
-import Background from "../components/Background.astro";
+import Background from "../components/Background";
 import Character from "../components/Character.astro";
 import Clock from "../components/Clock";
 import MusicToggle from "../components/MusicToggle";
@@ -18,7 +18,7 @@ import "../styles/global.css";
     <title>Prism Tower</title>
   </head>
   <body class="relative w-full min-h-screen text-white">
-    <Background />
+    <Background client:load />
     <div class="relative flex flex-col items-center py-12 px-8 md:px-12 gap-12">
       <Clock client:load />
       <SearchBar />
