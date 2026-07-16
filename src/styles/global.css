@@ -4,6 +4,11 @@
   --font-sans: "HarmonyOS Sans", "Inter", sans-serif;
 }
 
+html,
+body {
+  background: transparent;
+}
+
 .frosted-glass {
   @apply backdrop-blur-md bg-white/10 border border-white/20;
   @apply hover:bg-white/15;

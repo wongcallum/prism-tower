@@ -1,7 +1,7 @@
 export type BackgroundVideo = {
   id: string;
   label: string;
-  src: string;
+  src: string | null;
 };
 
 // a cached video is only redownloaded when url is changed
@@ -13,4 +13,5 @@ export const BACKGROUND_VIDEOS: BackgroundVideo[] = [
   { id: "title_4nd_Ep", label: "4.5th PV", src: "/videos/title_4nd_Ep.webm" },
   { id: "title_5th_1", label: "5th PV", src: "/videos/title_5th_1.webm" },
   { id: "title_6th_1", label: "6th PV", src: "/videos/title_6th_1.webm" },
+  { id: "_", label: "None", src: null },
 ];

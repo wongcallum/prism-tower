@@ -28,6 +28,7 @@ export default function Background() {
   const objectUrlRef = useRef<string | null>(null);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(BACKGROUND_VIDEOS[0].id);
+  const hasVideo = (BACKGROUND_VIDEOS.find((v) => v.id === selected) ?? BACKGROUND_VIDEOS[0]).src !== null;
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -38,6 +39,17 @@ export default function Background() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, selected);
     const video = BACKGROUND_VIDEOS.find((v) => v.id === selected) ?? BACKGROUND_VIDEOS[0];
+
+    if (video.src === null) {
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
+      const el = videoRef.current;
+      if (el) {
+        el.removeAttribute("src");
+        el.load();
+      }
+      return;
+    }
 
     let cancelled = false;
     resolveVideoSrc(video.src).then((url) => {
@@ -78,7 +90,7 @@ export default function Background() {
         playsinline
         class="fixed top-0 left-0 w-full h-screen object-cover -z-10"
       />
-      <div class="fixed top-0 left-0 w-full h-screen bg-black/60 -z-10"></div>
+      <div class={`fixed top-0 left-0 w-full h-screen -z-10 ${hasVideo ? "bg-black/60" : "bg-transparent"}`}></div>
 
       <div class="fixed bottom-12 left-12 z-10">
         {open && (
