@@ -3,7 +3,7 @@
   stdenv,
   nodejs,
   pnpmConfigHook,
-  pnpm_10,
+  pnpm_11,
   fetchPnpmDeps,
   revision,
   services ? [ ],
@@ -18,23 +18,29 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     nodejs
     pnpmConfigHook
-    pnpm_10
+    pnpm_11
   ];
 
   # https://nixos.org/manual/nixpkgs/unstable/#javascript-pnpm
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/node/fetch-pnpm-deps/default.nix
   pnpmInstallFlags = [ "--prod" ];
-  pnpmDeps = fetchPnpmDeps {
-    fetcherVersion = 3;
-    hash = "sha256-99SOCAGcQnMqOWyOnGDsTzZHtOh8ngVHmEE949H5KdQ=";
-    pnpm = pnpm_10;
-    inherit (finalAttrs)
-      pname
-      version
-      src
-      pnpmInstallFlags
-      ;
-  };
+  pnpmDeps =
+    (fetchPnpmDeps {
+      fetcherVersion = 4;
+      hash = "sha256-JzHTAbUQQDqdTeSoRElaarrzGnbXZXq8/6Pbj6w0Fkg=";
+      pnpm = pnpm_11;
+      inherit (finalAttrs)
+        pname
+        version
+        src
+        pnpmInstallFlags
+        ;
+    }).overrideAttrs
+      (old: {
+        # This is bad practice, but I don't have all the disk space in the world.
+        # Fetching the native dependencies of all architectures increases the deps size by 8x.
+        installPhase = builtins.replaceStrings [ "--force" ] [ "" ] old.installPhase;
+      });
 
   env = {
     SEARCH_URL = lib.escapeShellArg searchUrl;

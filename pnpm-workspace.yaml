@@ -2,3 +2,11 @@ allowBuilds:
   esbuild: true
 overrides:
   sharp: "-"
+# Keep this the same as systems in flake.nix
+supportedArchitectures:
+  os:
+    - linux
+  cpu:
+    - x64
+  libc:
+    - glibc
