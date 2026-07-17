@@ -4,6 +4,8 @@ export type BackgroundVideo = {
   src: string | null;
 };
 
+export const BACKGROUND_VIDEO_STORAGE_KEY = "background-video";
+
 // a cached video is only redownloaded when url is changed
 export const BACKGROUND_VIDEOS: BackgroundVideo[] = [
   { id: "title_1st_1", label: "1st PV", src: "/videos/title_1st_1.webm" },

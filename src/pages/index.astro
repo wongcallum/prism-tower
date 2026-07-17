@@ -4,8 +4,11 @@ import Character from "../components/Character.astro";
 import Clock from "../components/Clock";
 import SearchBar from "../components/SearchBar.astro";
 import Services from "../components/Services.astro";
+import { BACKGROUND_VIDEO_STORAGE_KEY, BACKGROUND_VIDEOS } from "../lib/videos";
 
 import "../styles/global.css";
+
+const noVideoId = BACKGROUND_VIDEOS.find((v) => v.src === null)?.id ?? "_";
 ---
 
 <html lang="en">
@@ -15,6 +18,13 @@ import "../styles/global.css";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Prism Tower</title>
+    <script is:inline define:vars={{ storageKey: BACKGROUND_VIDEO_STORAGE_KEY, noVideoId }}>
+      try {
+        if (localStorage.getItem(storageKey) === noVideoId) {
+          document.documentElement.classList.add("no-video");
+        }
+      } catch {}
+    </script>
   </head>
   <body class="relative w-full min-h-screen text-white">
     <Background client:load />

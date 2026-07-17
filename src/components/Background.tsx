@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 
-import { BACKGROUND_VIDEOS } from "../lib/videos";
+import { BACKGROUND_VIDEO_STORAGE_KEY, BACKGROUND_VIDEOS } from "../lib/videos";
 import { FluentImage24Regular } from "./icons/FluentImage24Regular";
 
 const CACHE_NAME = "bg-videos-v1";
-const STORAGE_KEY = "background-video";
+const STORAGE_KEY = BACKGROUND_VIDEO_STORAGE_KEY;
+
+function getInitialSelected(): string {
+  if (typeof localStorage === "undefined") return BACKGROUND_VIDEOS[0].id;
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved && BACKGROUND_VIDEOS.some((v) => v.id === saved) ? saved : BACKGROUND_VIDEOS[0].id;
+}
 
 async function resolveVideoSrc(src: string): Promise<string> {
   if (typeof caches === "undefined") return src;
@@ -27,12 +33,10 @@ export default function Background() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const objectUrlRef = useRef<string | null>(null);
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(BACKGROUND_VIDEOS[0].id);
+  const [selected, setSelected] = useState(getInitialSelected);
   const hasVideo = (BACKGROUND_VIDEOS.find((v) => v.id === selected) ?? BACKGROUND_VIDEOS[0]).src !== null;
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && BACKGROUND_VIDEOS.some((v) => v.id === saved)) setSelected(saved);
     navigator.storage?.persist?.();
   }, []);
 
@@ -90,7 +94,10 @@ export default function Background() {
         playsinline
         class="fixed top-0 left-0 w-full h-screen object-cover -z-10"
       />
-      <div class={`fixed top-0 left-0 w-full h-screen -z-10 ${hasVideo ? "bg-black/60" : "bg-transparent"}`}></div>
+      <div
+        id="bg-tint"
+        class={`fixed top-0 left-0 w-full h-screen -z-10 ${hasVideo ? "bg-black/60" : "bg-transparent"}`}
+      ></div>
 
       <div class="fixed bottom-12 left-12 z-10">
         {open && (

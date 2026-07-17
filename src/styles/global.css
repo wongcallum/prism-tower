@@ -9,6 +9,10 @@ body {
   background: transparent;
 }
 
+html.no-video #bg-tint {
+  background-color: transparent;
+}
+
 .frosted-glass {
   @apply backdrop-blur-md bg-white/10 border border-white/20;
   @apply hover:bg-white/15;
