@@ -39,7 +39,8 @@ stdenv.mkDerivation (finalAttrs: {
       (old: {
         # This is bad practice, but I don't have all the disk space in the world.
         # Fetching the native dependencies of all architectures increases the deps size by 8x.
-        installPhase = builtins.replaceStrings [ "--force" ] [ "" ] old.installPhase;
+        # Remove the whole array element on newer fetchers
+        installPhase = builtins.replaceStrings [ ''"--force"'' "--force" ] [ "" "" ] old.installPhase;
       });
 
   env = {
