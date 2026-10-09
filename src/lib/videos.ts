@@ -15,5 +15,10 @@ export const BACKGROUND_VIDEOS: BackgroundVideo[] = [
   { id: "title_4nd_Ep", label: "4.5th PV", src: "/videos/title_4nd_Ep.webm" },
   { id: "title_5th_1", label: "5th PV", src: "/videos/title_5th_1.webm" },
   { id: "title_6th_1", label: "6th PV", src: "/videos/title_6th_1.webm" },
+  { id: "L9", label: "L9", src: "/videos/L9.webm" },
+  { id: "xaleid_1", label: "Xaleid◆scopiX", src: "/videos/xaleid_1.webm" },
+  { id: "raputa_1", label: "raputa 1", src: "/videos/raputa_1.webm" },
+  { id: "raputa_2", label: "raputa 2", src: "/videos/raputa_2.webm" },
+  { id: "dead_maams_chest_1", label: "Dead Ma'am's Chest", src: "/videos/dead_maams_chest_1.webm" },
   { id: "_", label: "None", src: null },
 ];
